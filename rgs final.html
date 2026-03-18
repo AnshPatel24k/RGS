@@ -1,0 +1,2948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGS Academy – Empowering Youth Through Sports</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Hind:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2b4a;
+            --navy-light: #243860;
+            --gold: #c49a2a;
+            --gold-light: #e8b830;
+            --orange: #e8520a;
+            --cream: #fdf9f3;
+            --green: #2e7d32;
+            --green-light: #43a047;
+            --text: #1e1e1e;
+            --text-light: #555;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind', sans-serif;
+            color: var(--text);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Baloo 2', cursive;
+        }
+
+        /* ── POPUP MODAL ── */
+        #popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 20, 40, 0.72);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.4s ease;
+        }
+
+        #popup-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .popup-box {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            max-width: 560px;
+            width: 92%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+            animation: slideUp 0.45s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        .popup-header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 28px 32px 22px;
+            position: relative;
+            text-align: center;
+        }
+
+        .popup-header img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .popup-header-fallback {
+            background: linear-gradient(135deg, rgba(232, 82, 10, 0.2), rgba(196, 154, 42, 0.15));
+            border-radius: 8px;
+            padding: 28px;
+            margin-bottom: 16px;
+            font-size: 64px;
+            text-align: center;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .popup-tag {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .popup-header h2 {
+            font-size: 26px;
+            color: white;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .popup-body {
+            padding: 26px 32px 30px;
+            text-align: center;
+        }
+
+        .popup-body p {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.75;
+            margin-bottom: 22px;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .popup-btn-primary {
+            background: var(--orange);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 15px;
+            font-family: 'Baloo 2', cursive;
+            transition: all 0.2s;
+        }
+
+        .popup-btn-primary:hover {
+            background: #c93d00;
+            transform: translateY(-2px);
+        }
+
+        .popup-btn-secondary {
+            background: transparent;
+            color: var(--navy);
+            padding: 12px 22px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .popup-btn-secondary:hover {
+            border-color: var(--navy);
+        }
+
+        /* ── ANNOUNCE BAR ── */
+        .announce-bar {
+            background: var(--navy);
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 9px 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .announce-bar a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            height: 74px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--navy);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 800;
+            font-size: 22px;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Baloo 2', cursive;
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--navy);
+            line-height: 1.1;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-search {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 7px 14px;
+            gap: 8px;
+            font-size: 13px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .nav-cta {
+            background: var(--orange);
+            color: white;
+            padding: 10px 26px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover {
+            background: #c93d00;
+        }
+
+        /* Mega Nav */
+        .nav-mega {
+            background: #f7f7f7;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-mega-inner {
+            display: flex;
+            align-items: center;
+            padding: 0 48px;
+            gap: 4px;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .mega-item {
+            position: relative;
+        }
+
+        .mega-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px 14px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .mega-link:hover,
+        .mega-link.active {
+            color: var(--orange);
+        }
+
+        .mega-link svg {
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+            opacity: 0.6;
+        }
+
+        .mega-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+            min-width: 220px;
+            z-index: 999;
+            padding: 10px 0;
+            border-top: 3px solid var(--orange);
+        }
+
+        .mega-item:hover .mega-dropdown {
+            display: block;
+        }
+
+        .mega-dropdown a {
+            display: block;
+            padding: 9px 20px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .mega-dropdown a:hover {
+            background: #fff5f0;
+            color: var(--orange);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            height: 580px;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-color: var(--navy);
+        }
+
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg, rgba(26, 43, 74, 0.87) 0%, rgba(26, 43, 74, 0.42) 55%, rgba(0, 0, 0, 0.08) 100%);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 80px;
+            max-width: 660px;
+            color: white;
+        }
+
+        .slide-tag {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 5px 16px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 18px;
+        }
+
+        .slide-content h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-content p {
+            font-size: 17px;
+            margin-bottom: 30px;
+            opacity: 0.92;
+            line-height: 1.65;
+        }
+
+        .slide-btn {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 13px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 15px;
+            display: inline-block;
+            transition: all 0.2s;
+            font-family: 'Baloo 2', cursive;
+            margin-right: 12px;
+        }
+
+        .slide-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .slide-btn-ghost {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            padding: 12px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .slide-btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.2s;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .slider-arrow:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--navy);
+        }
+
+        .slider-arrow.prev {
+            left: 24px;
+        }
+
+        .slider-arrow.next {
+            right: 24px;
+        }
+
+        /* ── QUICK LINKS BAR ── */
+        .quick-bar {
+            background: white;
+            border-bottom: 1px solid #eee;
+            padding: 0;
+        }
+
+        .quick-bar-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .quick-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 22px 28px;
+            text-decoration: none;
+            color: var(--text);
+            border-right: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        .quick-item:last-child {
+            border-right: none;
+        }
+
+        .quick-item:hover {
+            background: #fff5f0;
+        }
+
+        .quick-icon {
+            font-size: 32px;
+        }
+
+        .quick-label {
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--navy);
+        }
+
+        .quick-sub {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            padding: 72px 40px;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            color: var(--orange);
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 28px;
+            height: 2px;
+            background: var(--orange);
+        }
+
+        h2.section-title {
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 14px;
+            line-height: 1.15;
+        }
+
+        .section-body {
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.85;
+            max-width: 760px;
+        }
+
+        /* ── ABOUT ── */
+        .about {
+            background: var(--cream);
+        }
+
+        .about-inner {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .about-img-wrap {
+            position: relative;
+            padding-bottom: 24px;
+            padding-right: 24px;
+        }
+
+        .about-img {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 420px;
+            box-shadow: 0 20px 50px rgba(26, 43, 74, 0.18);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--navy);
+            color: white;
+            border-radius: 8px;
+            padding: 16px 22px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-badge .num {
+            font-family: 'Baloo 2', cursive;
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--gold-light);
+            line-height: 1;
+        }
+
+        .about-badge .lbl {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        .about-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .about-pill {
+            background: white;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 20px;
+            color: var(--navy);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 15px;
+            border-bottom: 2px solid var(--navy);
+            padding-bottom: 3px;
+            transition: color 0.2s;
+        }
+
+        .read-more:hover {
+            color: var(--orange);
+            border-color: var(--orange);
+        }
+
+        /* ── VISION ── */
+        .vision-band {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 56px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-band::before {
+            content: '⚽';
+            position: absolute;
+            right: 4%;
+            top: -20px;
+            font-size: 200px;
+            opacity: 0.04;
+        }
+
+        .vision-band h2 {
+            font-size: 34px;
+            color: white;
+            font-weight: 800;
+            max-width: 820px;
+            margin: 0 auto 14px;
+            line-height: 1.35;
+        }
+
+        .vision-band h2 span {
+            color: var(--gold-light);
+        }
+
+        .vision-band p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        /* ── PROGRAMS ── */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 44px;
+        }
+
+        .program-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.09);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .program-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 14px 36px rgba(26, 43, 74, 0.15);
+        }
+
+        .program-card-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .program-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .program-card:hover .program-card-img img {
+            transform: scale(1.07);
+        }
+
+        .sport-tag {
+            position: absolute;
+            bottom: 10px;
+            left: 14px;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .program-card-body {
+            padding: 20px;
+            background: white;
+        }
+
+        .program-card-body h3 {
+            font-size: 18px;
+            color: var(--navy);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .program-card-body p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.65;
+        }
+
+        .card-link {
+            color: var(--orange);
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        .program-img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+        }
+
+        /* ── APPROACH / HOW WE WORK ── */
+        .approach {
+            background: white;
+        }
+
+        .approach-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 50px;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 36px 28px;
+            border-radius: 12px;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .step-num {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--navy);
+            color: white;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 800;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .step-icon {
+            font-size: 40px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .step-card h3 {
+            font-size: 20px;
+            color: var(--navy);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .step-connector {
+            display: none;
+        }
+
+        /* ── STATS ── */
+        .stats {
+            background: var(--navy);
+            padding: 64px 40px;
+        }
+
+        .stats h2 {
+            font-size: 36px;
+            color: white;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .stats h2 span {
+            color: var(--gold-light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .stat-box {
+            text-align: center;
+            color: white;
+            padding: 32px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-box:last-child {
+            border-right: none;
+        }
+
+        .stat-num {
+            font-family: 'Baloo 2', cursive;
+            font-size: 58px;
+            font-weight: 800;
+            color: var(--gold-light);
+            line-height: 1;
+        }
+
+        .stat-plus {
+            font-size: 28px;
+        }
+
+        .stat-divider {
+            width: 36px;
+            height: 3px;
+            background: var(--gold);
+            margin: 12px auto;
+            border-radius: 2px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-desc {
+            font-size: 12px;
+            opacity: 0.6;
+            line-height: 1.5;
+        }
+
+        /* ── GALLERY ── */
+        .gallery {
+            background: var(--cream);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            grid-template-rows: 220px 220px;
+            gap: 14px;
+            margin-top: 44px;
+        }
+
+        .gal-item {
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background: var(--navy-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gal-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+            display: block;
+        }
+
+        .gal-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gal-item.big {
+            grid-row: span 2;
+        }
+
+        .gal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 43, 74, 0);
+            display: flex;
+            align-items: flex-end;
+            padding: 14px;
+            transition: background 0.3s;
+        }
+
+        .gal-item:hover .gal-overlay {
+            background: rgba(26, 43, 74, 0.45);
+        }
+
+        .gal-caption {
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: all 0.3s;
+        }
+
+        .gal-item:hover .gal-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gal-placeholder {
+            font-size: 56px;
+            opacity: 0.3;
+        }
+
+        /* ── STORIES ── */
+        .stories {
+            background: white;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 44px;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .story-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .story-img {
+            height: 230px;
+            overflow: hidden;
+            background: var(--navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .story-card:hover .story-img img {
+            transform: scale(1.06);
+        }
+
+        .story-body {
+            padding: 24px;
+        }
+
+        .story-tag {
+            background: #fff3e0;
+            color: var(--orange);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .story-body h3 {
+            font-size: 21px;
+            color: var(--navy);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .story-body p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .read-link {
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* ── VOLUNTEER / GET INVOLVED ── */
+        .get-involved {
+            background: var(--cream);
+        }
+
+        .involved-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 44px;
+        }
+
+        .involved-card {
+            background: white;
+            border-radius: 12px;
+            padding: 36px 28px;
+            text-align: center;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--navy);
+        }
+
+        .involved-card:nth-child(2) {
+            border-top-color: var(--orange);
+        }
+
+        .involved-card:nth-child(3) {
+            border-top-color: var(--gold);
+        }
+
+        .involved-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .involved-icon {
+            font-size: 48px;
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .involved-card h3 {
+            font-size: 22px;
+            color: var(--navy);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .involved-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .involved-btn {
+            display: inline-block;
+            padding: 11px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-navy {
+            background: var(--navy);
+            color: white;
+        }
+
+        .btn-navy:hover {
+            background: var(--navy-light);
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: white;
+        }
+
+        .btn-orange:hover {
+            background: #c93d00;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-light);
+        }
+
+        /* ── ANNUAL REPORT / TRANSPARENCY ── */
+        .transparency {
+            background: white;
+        }
+
+        .report-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 44px;
+        }
+
+        .report-card {
+            border: 2px solid #eee;
+            border-radius: 10px;
+            padding: 28px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .report-card:hover {
+            border-color: var(--orange);
+            box-shadow: 0 8px 24px rgba(232, 82, 10, 0.1);
+        }
+
+        .report-year {
+            font-family: 'Baloo 2', cursive;
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .report-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 8px 0 10px;
+        }
+
+        .report-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .report-link {
+            color: var(--orange);
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ── MEDIA / PRESS ── */
+        .media-section {
+            background: var(--cream);
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 44px;
+        }
+
+        .media-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+        }
+
+        .media-thumb {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-play {
+            position: absolute;
+            width: 52px;
+            height: 52px;
+            background: rgba(232, 82, 10, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .media-body {
+            padding: 20px;
+        }
+
+        .media-source {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 8px;
+        }
+
+        .media-body h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .media-body p {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ── PARTNER LOGOS ── */
+        .partners {
+            background: white;
+            padding: 52px 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .partners h3 {
+            text-align: center;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #aaa;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        .partner-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .partner-logo {
+            font-family: 'Baloo 2', cursive;
+            font-weight: 800;
+            font-size: 18px;
+            color: #ccc;
+            transition: color 0.2s;
+            cursor: default;
+        }
+
+        .partner-logo:hover {
+            color: var(--navy);
+        }
+
+        /* ── NEWSLETTER ── */
+        .newsletter {
+            background: linear-gradient(135deg, var(--navy) 0%, #1e3a6e 100%);
+            padding: 64px 40px;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 36px;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .newsletter p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            min-width: 220px;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: 'Hind', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-submit {
+            background: var(--orange);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .newsletter-submit:hover {
+            background: #c93d00;
+        }
+
+        /* ── FOUNDER ── */
+        .founder {
+            background: var(--navy);
+            padding: 72px 40px;
+        }
+
+        .founder-inner {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .founder-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--gold);
+            box-shadow: 0 0 0 10px rgba(196, 154, 42, 0.15);
+            flex-shrink: 0;
+        }
+
+        .founder-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .founder-text .section-label {
+            color: var(--gold-light);
+        }
+
+        .founder-text .section-label::before {
+            background: var(--gold);
+        }
+
+        .founder-text h2 {
+            font-size: 34px;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .founder-title {
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .founder-text p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.85;
+        }
+
+        /* ── DONATE ── */
+        .donate-band {
+            background: linear-gradient(135deg, #e8520a 0%, #c23d0a 100%);
+            padding: 72px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .donate-band::before {
+            content: '🎯';
+            position: absolute;
+            right: 5%;
+            top: -20px;
+            font-size: 180px;
+            opacity: 0.06;
+        }
+
+        .donate-band h2 {
+            font-size: 40px;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .donate-band p {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 17px;
+            max-width: 540px;
+            margin: 0 auto 34px;
+            line-height: 1.75;
+        }
+
+        .donate-amounts {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .donate-amount {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 10px 22px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .donate-amount:hover,
+        .donate-amount.active {
+            background: white;
+            color: var(--orange);
+            border-color: white;
+        }
+
+        .donate-btn-big {
+            background: white;
+            color: var(--orange);
+            padding: 16px 52px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 18px;
+            display: inline-block;
+            transition: all 0.2s;
+            font-family: 'Baloo 2', cursive;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .donate-btn-big:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ── CONTACT ── */
+        .contact {
+            background: var(--cream);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 64px;
+            align-items: start;
+            margin-top: 44px;
+        }
+
+        .contact-info h3 {
+            font-size: 22px;
+            color: var(--navy);
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 22px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--navy);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.75;
+        }
+
+        .info-text strong {
+            color: var(--navy);
+            display: block;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .social-btn:hover {
+            background: var(--orange);
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 10px;
+            padding: 36px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-form h3 {
+            font-size: 22px;
+            color: var(--navy);
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px 14px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Hind', sans-serif;
+            font-size: 15px;
+            color: var(--text);
+            transition: border-color 0.2s;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--navy);
+            background: white;
+        }
+
+        .form-group textarea {
+            height: 110px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--navy);
+            color: white;
+            padding: 13px 36px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--orange);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #0d1929;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 56px 40px 28px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 36px;
+            margin-bottom: 44px;
+        }
+
+        .footer-about {
+            font-size: 14px;
+            line-height: 1.75;
+            max-width: 260px;
+            margin-top: 10px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            position: relative;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 28px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold-light);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .footer-social a:hover {
+            background: var(--orange);
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-bottom a {
+            color: var(--gold-light);
+            text-decoration: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 960px) {
+            .nav-top {
+                padding: 0 20px;
+            }
+
+            .nav-mega-inner {
+                padding: 0 20px;
+            }
+
+            .quick-bar-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quick-item {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .programs-grid,
+            .stats-grid,
+            .approach-steps,
+            .involved-grid,
+            .report-cards,
+            .media-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-inner,
+            .contact-grid,
+            .founder-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+
+            .gal-item.big {
+                grid-row: span 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-top {
+                padding: 0 16px;
+            }
+
+            .quick-bar-inner,
+            .programs-grid,
+            .stats-grid,
+            .stories-grid,
+            .approach-steps,
+            .involved-grid,
+            .report-cards,
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 52px 20px;
+            }
+
+            .hero {
+                height: 480px;
+            }
+
+            .slide-content {
+                padding: 0 28px;
+            }
+
+            .slide-content h1 {
+                font-size: 30px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════════ POPUP MODAL ══════════════ -->
+    <div id="popup-overlay">
+        <div class="popup-box">
+            <div class="popup-header">
+                <button class="popup-close" onclick="closePopup()">✕</button>
+                <div class="popup-header-fallback">⚽🏆🌟</div>
+                <div class="popup-tag">Admissions Open 2025</div>
+                <h2>Join RGS Academy — Sports Camp Registrations Now Open!</h2>
+            </div>
+            <div class="popup-body">
+                <p>Applications are now open for RGS Academy's 2025 Sports Training Program in Jujharpur, Narmadapuram.
+                    We are enrolling boys & girls aged 6–18 for football, athletics, and life-skills coaching.
+                    <strong>Limited spots available — register today!</strong></p>
+                <div class="popup-actions">
+                    <a href="#contact" class="popup-btn-primary" onclick="closePopup()">Register Now →</a>
+                    <button class="popup-btn-secondary" onclick="closePopup()">Maybe Later</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════ ANNOUNCE BAR ══════════════ -->
+    <div class="announce-bar">
+        🏅 RGS Academy Sports Camp 2025 — Registrations Open for Boys & Girls Aged 6–18 in Narmadapuram!
+        <a href="#contact">Register Now →</a>
+    </div>
+
+    <!-- ══════════════ NAVBAR ══════════════ -->
+    <nav>
+        <div class="nav-top">
+            <a href="#" class="logo">
+                <div class="logo-icon">R</div>
+                <div>
+                    <div class="logo-text">RGS Academy</div>
+                    <div class="logo-sub">Jujharpur · Narmadapuram</div>
+                </div>
+            </a>
+            <div class="nav-right">
+                <div class="nav-search">🔍 Search...</div>
+                <a href="#donate" class="nav-cta">Donate Now</a>
+            </div>
+        </div>
+        <div class="nav-mega">
+            <div class="nav-mega-inner">
+                <div class="mega-item">
+                    <a href="#about" class="mega-link">
+                        About Us
+                        <svg viewBox="0 0 12 8">
+                            <path d="M1 1l5 5 5-5" />
+                        </svg>
+                    </a>
+                    <div class="mega-dropdown">
+                        <a href="#about">Our Story</a>
+                        <a href="#about">Mission & Vision</a>
+                        <a href="#about">Founder — Sonu RGS</a>
+                        <a href="#about">Our Approach</a>
+                        <a href="#transparency">Annual Reports</a>
+                        <a href="#contact">Board & Team</a>
+                    </div>
+                </div>
+                <div class="mega-item">
+                    <a href="#programs" class="mega-link">
+                        Programs
+                        <svg viewBox="0 0 12 8">
+                            <path d="M1 1l5 5 5-5" />
+                        </svg>
+                    </a>
+                    <div class="mega-dropdown">
+                        <a href="#programs">Football Training</a>
+                        <a href="#programs">Girls' Empowerment</a>
+                        <a href="#programs">Sports & Education</a>
+                        <a href="#programs">Kit Distribution</a>
+                        <a href="#programs">Athletics & Fitness</a>
+                        <a href="#programs">Village Tournaments</a>
+                    </div>
+                </div>
+                <div class="mega-item">
+                    <a href="#stories" class="mega-link">
+                        Impact
+                        <svg viewBox="0 0 12 8">
+                            <path d="M1 1l5 5 5-5" />
+                        </svg>
+                    </a>
+                    <div class="mega-dropdown">
+                        <a href="#stories">Stories of Change</a>
+                        <a href="#stats">Impact Numbers</a>
+                        <a href="#gallery">Photo Gallery</a>
+                        <a href="#media">Media Coverage</a>
+                    </div>
+                </div>
+                <div class="mega-item">
+                    <a href="#get-involved" class="mega-link">
+                        Get Involved
+                        <svg viewBox="0 0 12 8">
+                            <path d="M1 1l5 5 5-5" />
+                        </svg>
+                    </a>
+                    <div class="mega-dropdown">
+                        <a href="#donate">Donate</a>
+                        <a href="#get-involved">Volunteer</a>
+                        <a href="#get-involved">Sponsor a Child</a>
+                        <a href="#get-involved">Corporate CSR</a>
+                        <a href="#contact">Partner With Us</a>
+                    </div>
+                </div>
+                <div class="mega-item">
+                    <a href="#gallery" class="mega-link">Gallery</a>
+                </div>
+                <div class="mega-item">
+                    <a href="#media" class="mega-link">Media</a>
+                </div>
+                <div class="mega-item">
+                    <a href="#contact" class="mega-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══════════════ HERO SLIDER ══════════════ -->
+    <div class="hero">
+        <div class="slides" id="slides">
+
+            <div class="slide">
+                <div class="slide-bg" style="background-image:url('image1.jpeg'); background-color:#1a2b4a;"></div>
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">Our Mission</span>
+                    <h1>Empowering Youth Through Sports & Education</h1>
+                    <p>RGS Academy brings sport, discipline, and opportunity to children across rural Narmadapuram,
+                        Madhya Pradesh.</p>
+                    <a href="#about" class="slide-btn">Learn More →</a>
+                    <a href="#donate" class="slide-btn-ghost">Support Us</a>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-bg" style="background-image:url('image2.jpeg'); background-color:#1e3050;"></div>
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">Girls in Sports</span>
+                    <h1>Breaking Barriers, Building Champions</h1>
+                    <p>We believe every girl deserves a field to play on. Our sports programs empower girls with
+                        confidence, teamwork, and leadership.</p>
+                    <a href="#programs" class="slide-btn">Our Programs →</a>
+                    <a href="#stories" class="slide-btn-ghost">Their Stories</a>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-bg" style="background-image:url('image3.jpeg'); background-color:#16243a;"></div>
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">Education + Sport</span>
+                    <h1>Learning Beyond Four Walls</h1>
+                    <p>Outdoor sessions, interactive learning, and physical activity — because education and sport go
+                        hand in hand.</p>
+                    <a href="#programs" class="slide-btn">See Programs →</a>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-bg" style="background-image:url('image4.jpeg'); background-color:#1a2b4a;"></div>
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">Community First</span>
+                    <h1>Rooted in the Village, Growing for India</h1>
+                    <p>From Jujharpur to the nation — RGS Academy builds sporting culture from the grassroots up.</p>
+                    <a href="#donate" class="slide-btn">Support Us →</a>
+                </div>
+            </div>
+
+        </div>
+        <button class="slider-arrow prev" onclick="changeSlide(-1)">&#8592;</button>
+        <button class="slider-arrow next" onclick="changeSlide(1)">&#8594;</button>
+        <div class="slider-dots" id="dots">
+            <div class="dot active" onclick="goSlide(0)"></div>
+            <div class="dot" onclick="goSlide(1)"></div>
+            <div class="dot" onclick="goSlide(2)"></div>
+            <div class="dot" onclick="goSlide(3)"></div>
+        </div>
+    </div>
+
+    <!-- ══════════════ QUICK LINKS BAR ══════════════ -->
+    <div class="quick-bar">
+        <div class="quick-bar-inner">
+            <a href="#programs" class="quick-item">
+                <span class="quick-icon">⚽</span>
+                <div>
+                    <div class="quick-label">Football Training</div>
+                    <div class="quick-sub">Ages 6–18 · Boys & Girls</div>
+                </div>
+            </a>
+            <a href="#get-involved" class="quick-item">
+                <span class="quick-icon">🤝</span>
+                <div>
+                    <div class="quick-label">Volunteer With Us</div>
+                    <div class="quick-sub">Join the mission on ground</div>
+                </div>
+            </a>
+            <a href="#donate" class="quick-item">
+                <span class="quick-icon">❤️</span>
+                <div>
+                    <div class="quick-label">Sponsor a Child</div>
+                    <div class="quick-sub">₹500/month changes a life</div>
+                </div>
+            </a>
+            <a href="#contact" class="quick-item">
+                <span class="quick-icon">📋</span>
+                <div>
+                    <div class="quick-label">Enroll Your Child</div>
+                    <div class="quick-sub">Admissions open 2025</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ══════════════ ABOUT ══════════════ -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-inner">
+                <div class="about-img-wrap">
+                    <div class="about-img">
+                        <img src="img 5.jpeg" alt="RGS Academy children community"
+                            onerror="this.parentElement.innerHTML='<div style=\'height:100%;background:var(--navy-light);display:flex;align-items:center;justify-content:center;font-size:80px;\'>⚽</div>'">
+                    </div>
+                    <div class="about-badge">
+                        <div class="num">500+</div>
+                        <div class="lbl">Youth Reached</div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <p class="section-label">About RGS Academy</p>
+                    <h2 class="section-title">Sport as a Tool for Change</h2>
+                    <p class="section-body">
+                        RGS Academy is a grassroots sports NGO founded by <strong>Sanjeev Choudhary (Sonu RGS)</strong>
+                        in Jujharpur, Narmadapuram, Madhya Pradesh. We believe that sport is one of the most powerful
+                        tools to transform the lives of children — building discipline, confidence, teamwork, and a
+                        hunger to succeed both on and off the field.
+                    </p>
+                    <br>
+                    <p class="section-body">
+                        From dusty village grounds to organized tournaments, RGS Academy creates a new generation of
+                        youth who are physically fit, mentally strong, and empowered with education and opportunity. We
+                        work directly with children, families, schools, and local communities to make sport accessible
+                        to every child — regardless of background, gender, or economic status.
+                    </p>
+                    <div class="about-pills">
+                        <span class="about-pill">🏅 Grassroots Sports</span>
+                        <span class="about-pill">👧 Girls' Empowerment</span>
+                        <span class="about-pill">📚 Education Integration</span>
+                        <span class="about-pill">🏘️ Community Development</span>
+                    </div>
+                    <a href="#programs" class="read-more">Explore Our Programs →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ VISION BAND ══════════════ -->
+    <div class="vision-band">
+        <h2>Committed to building <span>future-ready youth</span> where every child has the <span>sport,
+                education,</span> and <span>opportunity</span> to thrive.</h2>
+        <p style="margin-top:16px;">Founded at RGS Academy Ground No. 2, Jujharpur — rooted in the village, growing for
+            India.</p>
+    </div>
+
+    <!-- ══════════════ HOW WE WORK ══════════════ -->
+    <section class="approach" id="approach">
+        <div class="container">
+            <p class="section-label">Our Approach</p>
+            <h2 class="section-title">How We Work</h2>
+            <p class="section-body">Our model is simple but powerful — we meet children where they are, in their
+                villages, and create a nurturing sporting environment that opens doors to bigger possibilities.</p>
+            <div class="approach-steps">
+                <div class="step-card">
+                    <span class="step-icon">🔍</span>
+                    <div class="step-num">1</div>
+                    <h3>Identify & Reach Out</h3>
+                    <p>We identify underserved children in rural villages, work with local schools and parents to bring
+                        them into our program — especially girls who face the most barriers.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-icon">🏋️</span>
+                    <div class="step-num">2</div>
+                    <h3>Train & Develop</h3>
+                    <p>Professional sports coaching combined with academic support builds both physical ability and
+                        mental strength. Every child gets a kit, a coach, and a community.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-icon">🏆</span>
+                    <div class="step-num">3</div>
+                    <h3>Compete & Grow</h3>
+                    <p>Our children participate in local, district and state-level tournaments — giving them real-world
+                        exposure, confidence, and a pathway to a sporting career.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ PROGRAMS ══════════════ -->
+    <section id="programs" style="background: var(--cream);">
+        <div class="container">
+            <p class="section-label">What We Do</p>
+            <h2 class="section-title">Our Programs</h2>
+            <p class="section-body">From grassroots football to education support and skill development — RGS Academy
+                offers a complete pathway for youth to grow through sport.</p>
+            <div class="programs-grid">
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <img src="img 5.jpeg" alt="Football Training"
+                            onerror="this.parentElement.innerHTML='<div class=\'program-img-placeholder\' style=\'background:#e8f5e9;\'>⚽</div><span class=\'sport-tag\'>Football</span>'">
+                        <span class="sport-tag">Football</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Football Training</h3>
+                        <p>Structured football coaching for boys and girls aged 6–18, focusing on technique, teamwork,
+                            and sportsmanship.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <img src="img 6.jpeg" alt="Sports Education"
+                            onerror="this.parentElement.innerHTML='<div class=\'program-img-placeholder\' style=\'background:#fff3e0;\'>📚</div><span class=\'sport-tag\'>Education</span>'">
+                        <span class="sport-tag">Education</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Sports & Education</h3>
+                        <p>Combining outdoor learning sessions with foundational literacy to keep dropout children
+                            engaged through sport.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <img src="img 7.jpeg" alt="Girls Empowerment"
+                            onerror="this.parentElement.innerHTML='<div class=\'program-img-placeholder\' style=\'background:#fce4ec;\'>👧</div><span class=\'sport-tag\'>Girls</span>'">
+                        <span class="sport-tag">Girls</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Girls' Empowerment</h3>
+                        <p>Dedicated programs to get girls on the field — challenging social barriers and building
+                            female leaders through sport.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <img src="img 8.jpeg" alt="Kit Distribution"
+                            onerror="this.parentElement.innerHTML='<div class=\'program-img-placeholder\' style=\'background:#e3f2fd;\'>👕</div><span class=\'sport-tag\'>Community</span>'">
+                        <span class="sport-tag">Community</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Kit Distribution & Support</h3>
+                        <p>Providing sports kits, equipment, and resources to underprivileged children so no child
+                            misses out due to cost.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <div class="program-img-placeholder" style="background:#f3e5f5; height:200px;">🏃</div>
+                        <span class="sport-tag">Athletics</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Athletics & Fitness</h3>
+                        <p>Track and field training, physical conditioning, and overall fitness programs designed to
+                            build strong, healthy children.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <div class="program-img-placeholder" style="background:#e8f5e9; height:200px;">🏅</div>
+                        <span class="sport-tag">Tournament</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Village Tournaments</h3>
+                        <p>Annual inter-village sports tournaments bringing communities together, celebrating young
+                            talent and local champions.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <div class="program-img-placeholder" style="background:#fffde7; height:200px;">🧠</div>
+                        <span class="sport-tag">Life Skills</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Life Skills Coaching</h3>
+                        <p>Leadership, communication, and goal-setting workshops that prepare youth for life beyond the
+                            field.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#contact" class="program-card">
+                    <div class="program-card-img">
+                        <div class="program-img-placeholder" style="background:#fce4ec; height:200px;">👨‍👩‍👧</div>
+                        <span class="sport-tag">Community</span>
+                    </div>
+                    <div class="program-card-body">
+                        <h3>Parent & Community Engagement</h3>
+                        <p>Working with families and villages to shift attitudes, gain support for girls in sports, and
+                            strengthen community bonds.</p>
+                        <span class="card-link">Read More →</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ STATS ══════════════ -->
+    <div class="stats" id="stats">
+        <div class="container">
+            <h2>Our <span>Impact</span> 2024–25</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-num">8<span class="stat-plus">+</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-title">Villages Reached</div>
+                    <div class="stat-desc">Communities covered across<br>Narmadapuram district</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">500<span class="stat-plus">+</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-title">Children Trained</div>
+                    <div class="stat-desc">Boys & girls active<br>in sports programs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">150<span class="stat-plus">+</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-title">Girls in Sports</div>
+                    <div class="stat-desc">Girls empowered through<br>football & athletics</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">20<span class="stat-plus">+</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-title">Tournaments</div>
+                    <div class="stat-desc">Village-level sports events<br>organized annually</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════ GALLERY ══════════════ -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <p class="section-label">On The Ground</p>
+            <h2 class="section-title">RGS Academy In Action</h2>
+            <p class="section-body">Real moments from our grounds — children playing, learning, and growing together in
+                Jujharpur.</p>
+            <div class="gallery-grid">
+                <div class="gal-item big">
+                    <img src="image1.jpeg" alt="Community gathering RGS Academy"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'gal-placeholder\'>📸</div><div class=\'gal-overlay\'><span class=\'gal-caption\'>Community Day — Jujharpur</span></div>'">
+                    <div class="gal-overlay"><span class="gal-caption">Community Day — Jujharpur</span></div>
+                </div>
+                <div class="gal-item">
+                    <img src="image2.jpeg" alt="Girls football training" onerror="this.style.display='none'">
+                    <div class="gal-overlay"><span class="gal-caption">Girls Football Training</span></div>
+                </div>
+                <div class="gal-item">
+                    <img src="image3.jpeg" alt="Village sports meet" onerror="this.style.display='none'">
+                    <div class="gal-overlay"><span class="gal-caption">Village Sports Meet</span></div>
+                </div>
+                <div class="gal-item">
+                    <img src="image4.jpeg" alt="Outdoor learning" onerror="this.style.display='none'">
+                    <div class="gal-overlay"><span class="gal-caption">Outdoor Learning Session</span></div>
+                </div>
+                <div class="gal-item">
+                    <img src="img 5.jpeg" alt="Kit distribution" onerror="this.style.display='none'">
+                    <div class="gal-overlay"><span class="gal-caption">Kit Distribution Ceremony</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ STORIES ══════════════ -->
+    <section class="stories" id="stories">
+        <div class="container">
+            <p class="section-label">Stories of Change</p>
+            <h2 class="section-title">Lives Transformed by Sport</h2>
+            <p class="section-body">Every child at RGS Academy has a story. These are a few that show what sport,
+                belief, and opportunity can do.</p>
+            <div class="stories-grid">
+
+                <a href="#" class="story-card">
+                    <div class="story-img">
+                        <img src="image1.jpeg" alt="Priya's story"
+                            onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;display:flex;align-items:center;justify-content:center;height:100%;\'>👧</div>'">
+                    </div>
+                    <div class="story-body">
+                        <span class="story-tag">Football</span>
+                        <h3>Priya</h3>
+                        <p>Once told that girls don't play football in her village, Priya became the first girl from
+                            Jujharpur to represent at a district-level tournament — changing her family's and
+                            community's mindset forever.</p>
+                        <span class="read-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#" class="story-card">
+                    <div class="story-img">
+                        <img src="img 8.jpeg" alt="Ramesh's story"
+                            onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;display:flex;align-items:center;justify-content:center;height:100%;\'>👦</div>'">
+                    </div>
+                    <div class="story-body">
+                        <span class="story-tag">Education</span>
+                        <h3>Ramesh</h3>
+                        <p>A child who had stopped attending school rejoined after joining RGS sports program — sport
+                            gave him a reason to show up every single day. Today he dreams of becoming a coach.</p>
+                        <span class="read-link">Read More →</span>
+                    </div>
+                </a>
+
+                <a href="#" class="story-card">
+                    <div class="story-img">
+                        <img src="img 7.jpeg" alt="Nayapura Village story"
+                            onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;display:flex;align-items:center;justify-content:center;height:100%;\'>🏘️</div>'">
+                    </div>
+                    <div class="story-body">
+                        <span class="story-tag">Community</span>
+                        <h3>Nayapura Village</h3>
+                        <p>Parents who once opposed girls playing sports now cheer from the sidelines at every match — a
+                            whole village transformed through the power of sport and RGS Academy's relentless belief.
+                        </p>
+                        <span class="read-link">Read More →</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ GET INVOLVED ══════════════ -->
+    <section class="get-involved" id="get-involved">
+        <div class="container">
+            <p class="section-label">Join The Movement</p>
+            <h2 class="section-title">How You Can Help</h2>
+            <p class="section-body">Whether you can give time, money, or your skills — there's a place for you in the
+                RGS Academy family. Together we can reach more children.</p>
+            <div class="involved-grid">
+                <div class="involved-card">
+                    <span class="involved-icon">💛</span>
+                    <h3>Donate</h3>
+                    <p>Even a small monthly donation can cover a child's sports kit, nutrition, and training costs for
+                        an entire month. Your ₹500 can change a life.</p>
+                    <a href="#donate" class="involved-btn btn-navy">Donate Now</a>
+                </div>
+                <div class="involved-card">
+                    <span class="involved-icon">🙌</span>
+                    <h3>Volunteer</h3>
+                    <p>Come to Jujharpur, coach sessions, help with events, or support us remotely in communications,
+                        design, or fundraising. All skills welcome.</p>
+                    <a href="#contact" class="involved-btn btn-orange">Become a Volunteer</a>
+                </div>
+                <div class="involved-card">
+                    <span class="involved-icon">🏢</span>
+                    <h3>Corporate CSR</h3>
+                    <p>Partner with RGS Academy for your company's CSR mandate. We offer co-branded programs, field
+                        visits, and detailed impact reports for all corporate partners.</p>
+                    <a href="#contact" class="involved-btn btn-gold">Partner With Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ TRANSPARENCY / REPORTS ══════════════ -->
+    <section class="transparency" id="transparency">
+        <div class="container">
+            <p class="section-label">Accountability</p>
+            <h2 class="section-title">Transparency & Reports</h2>
+            <p class="section-body">We believe in full transparency. Here is an overview of our work, reach, and use of
+                funds. Every rupee is tracked and reported.</p>
+            <div class="report-cards">
+                <a href="#" class="report-card">
+                    <div class="report-year">2024</div>
+                    <div class="report-title">Annual Impact Report 2024</div>
+                    <div class="report-desc">500+ children trained, 8 villages reached, 20+ tournaments. Full breakdown
+                        of program spending, outcomes, and field photos.</div>
+                    <div class="report-link">Download PDF →</div>
+                </a>
+                <a href="#" class="report-card">
+                    <div class="report-year">2023</div>
+                    <div class="report-title">Annual Impact Report 2023</div>
+                    <div class="report-desc">The year we expanded to 5 new villages and launched our dedicated Girls in
+                        Sports program with 80+ female participants.</div>
+                    <div class="report-link">Download PDF →</div>
+                </a>
+                <a href="#" class="report-card">
+                    <div class="report-year">2022</div>
+                    <div class="report-title">Annual Impact Report 2022</div>
+                    <div class="report-desc">Our founding year report — how RGS Academy started with one ground, 30
+                        children, and a big dream for rural youth.</div>
+                    <div class="report-link">Download PDF →</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ MEDIA SECTION ══════════════ -->
+    <section class="media-section" id="media">
+        <div class="container">
+            <p class="section-label">In The News</p>
+            <h2 class="section-title">Media & Press</h2>
+            <p class="section-body">RGS Academy's work has been recognized across local and regional media. Here's a
+                selection of coverage highlighting the impact we're making on the ground.</p>
+            <div class="media-grid">
+                <div class="media-card">
+                    <div class="media-thumb">
+                        <div style="font-size:48px;">📰</div>
+                    </div>
+                    <div class="media-body">
+                        <div class="media-source">Local News · Narmadapuram</div>
+                        <h3>RGS Academy Girls Win District Football Championship</h3>
+                        <p>A landmark moment — the first all-girls team from Jujharpur brings home a district-level
+                            football trophy.</p>
+                    </div>
+                </div>
+                <div class="media-card">
+                    <div class="media-thumb">
+                        <div style="font-size:48px;">📺</div>
+                    </div>
+                    <div class="media-body">
+                        <div class="media-source">TV Feature · MP State</div>
+                        <h3>Sonu RGS: The Coach Who is Changing Rural Madhya Pradesh</h3>
+                        <p>A television feature on how founder Sanjeev Choudhary is building sporting culture in
+                            villages no one thought possible.</p>
+                    </div>
+                </div>
+                <div class="media-card">
+                    <div class="media-thumb">
+                        <div style="font-size:48px;">🏆</div>
+                    </div>
+                    <div class="media-body">
+                        <div class="media-source">Awards · Itarsi</div>
+                        <h3>RGS Academy Recognized for Community Sports Development</h3>
+                        <p>Local government and district sports authority honour RGS Academy for its outstanding work
+                            with rural youth in Narmadapuram.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ PARTNER LOGOS ══════════════ -->
+    <div class="partners">
+        <h3>Supported & Recognized By</h3>
+        <div class="partner-logos">
+            <span class="partner-logo">District Sports Authority</span>
+            <span class="partner-logo">MP Football Association</span>
+            <span class="partner-logo">Narmadapuram District Collector</span>
+            <span class="partner-logo">Village Panchayat Jujharpur</span>
+            <span class="partner-logo">Local School Network</span>
+        </div>
+    </div>
+
+    <!-- ══════════════ NEWSLETTER ══════════════ -->
+    <div class="newsletter">
+        <h2>Stay Connected With Our Work</h2>
+        <p>Get updates from the field — new programs, tournament results, stories of change, and ways to get involved
+            delivered to your inbox.</p>
+        <div class="newsletter-form">
+            <input class="newsletter-input" type="email" placeholder="Enter your email address">
+            <button class="newsletter-submit"
+                onclick="alert('Thank you for subscribing! We will keep you updated.')">Subscribe</button>
+        </div>
+    </div>
+
+    <!-- ══════════════ FOUNDER ══════════════ -->
+    <div class="founder">
+        <div class="container">
+            <div class="founder-inner">
+                <div class="founder-photo">
+                    <img src="WhatsApp_Image_2026-03-13_at_12_53_53_AM__2_.jpeg" alt="Sanjeev Choudhary Sonu RGS"
+                        onerror="this.parentElement.innerHTML='<div style=\'width:200px;height:200px;border-radius:50%;background:var(--navy-light);display:flex;align-items:center;justify-content:center;font-size:72px;\'>👤</div>'">
+                </div>
+                <div class="founder-text">
+                    <p class="section-label">Meet The Founder</p>
+                    <h2>Sanjeev Choudhary</h2>
+                    <p class="founder-title">Sonu RGS — Founder, RGS Academy</p>
+                    <p>Born and raised in Jujharpur, Sanjeev Choudhary (known as Sonu RGS) started RGS Academy with a
+                        simple belief: every child in rural India deserves access to sport, and sport can change lives.
+                        From organizing the first football sessions on a village ground to building one of
+                        Narmadapuram's most impactful youth programs, Sonu's journey is one of passion, grit, and deep
+                        love for his community.</p>
+                    <br>
+                    <p>His vision — that sport is the greatest equalizer — drives everything RGS Academy does. Under his
+                        leadership, the academy has grown from 30 children to 500+, and from one village to eight, with
+                        no signs of stopping.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════ DONATE ══════════════ -->
+    <div class="donate-band" id="donate">
+        <div class="container">
+            <h2>Help a Child Find Their Field</h2>
+            <p>Your support provides sports equipment, training, and education to underprivileged children across rural
+                Madhya Pradesh. Every contribution counts.</p>
+            <div class="donate-amounts">
+                <div class="donate-amount" onclick="selectAmount(this)">₹500</div>
+                <div class="donate-amount active" onclick="selectAmount(this)">₹1,000</div>
+                <div class="donate-amount" onclick="selectAmount(this)">₹2,500</div>
+                <div class="donate-amount" onclick="selectAmount(this)">₹5,000</div>
+            </div>
+            <a href="mailto:sonurgs5982@gmail.com?subject=Donation%20to%20RGS%20Academy" class="donate-btn-big">Donate
+                Now →</a>
+            <p style="color:rgba(255,255,255,0.6);font-size:13px;margin-top:18px;">Contact: sonurgs5982@gmail.com to
+                contribute or partner with us</p>
+        </div>
+    </div>
+
+    <!-- ══════════════ CONTACT ══════════════ -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <p class="section-label">Get In Touch</p>
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>RGS Academy</h3>
+                    <div class="info-row">
+                        <div class="info-icon">👤</div>
+                        <div class="info-text">
+                            <strong>Founder</strong>
+                            Sanjeev Choudhary (Sonu RGS)
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <strong>Address</strong>
+                            H.No. 20, Kurmi Mohalla<br>
+                            Village &amp; Post: Jujharpur<br>
+                            Teh: Itarsi, Dist: Narmadapuram<br>
+                            PIN – 461111<br>
+                            <em>RGS Academy Ground No. 2</em>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-text">
+                            <strong>Email</strong>
+                            <a href="mailto:sonurgs5982@gmail.com"
+                                style="color:var(--orange);font-weight:600;">sonurgs5982@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon">🏟️</div>
+                        <div class="info-text">
+                            <strong>Ground</strong>
+                            RGS Academy Ground No. 2<br>
+                            Jujharpur, Itarsi Tehsil<br>
+                            Narmadapuram, Madhya Pradesh
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-btn" title="Facebook">📘</a>
+                        <a href="#" class="social-btn" title="Instagram">📸</a>
+                        <a href="#" class="social-btn" title="YouTube">▶️</a>
+                        <a href="#" class="social-btn" title="WhatsApp">💬</a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Your first name">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Your last name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+91 XXXXX XXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>I Am Interested In</label>
+                        <select>
+                            <option value="">Select a reason...</option>
+                            <option>Enrolling my child</option>
+                            <option>Donating / Sponsorship</option>
+                            <option>Volunteering</option>
+                            <option>Corporate CSR Partnership</option>
+                            <option>Media / Press Inquiry</option>
+                            <option>General Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea
+                            placeholder="Tell us how you'd like to volunteer, donate, sponsor, or partner with RGS Academy..."></textarea>
+                    </div>
+                    <button class="submit-btn"
+                        onclick="alert('Thank you! We will get back to you at sonurgs5982@gmail.com')">Send
+                        Message</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div
+                        style="font-family:'Baloo 2',cursive;font-weight:800;font-size:24px;color:white;margin-bottom:12px;">
+                        RGS Academy</div>
+                    <p class="footer-about">A grassroots sports NGO empowering children and youth through sport,
+                        education, and opportunity in rural Narmadapuram, Madhya Pradesh.</p>
+                    <div class="footer-social">
+                        <a href="#">📘</a>
+                        <a href="#">📸</a>
+                        <a href="#">▶️</a>
+                        <a href="#">💬</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <ul>
+                        <li><a href="#about">Our Story</a></li>
+                        <li><a href="#about">Mission & Vision</a></li>
+                        <li><a href="#about">Founder — Sonu RGS</a></li>
+                        <li><a href="#approach">Our Approach</a></li>
+                        <li><a href="#transparency">Annual Reports</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Programs</h4>
+                    <ul>
+                        <li><a href="#programs">Football Training</a></li>
+                        <li><a href="#programs">Girls' Empowerment</a></li>
+                        <li><a href="#programs">Sports & Education</a></li>
+                        <li><a href="#programs">Athletics & Fitness</a></li>
+                        <li><a href="#programs">Village Tournaments</a></li>
+                        <li><a href="#programs">Life Skills</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="#donate">Donate</a></li>
+                        <li><a href="#get-involved">Volunteer</a></li>
+                        <li><a href="#get-involved">Sponsor a Child</a></li>
+                        <li><a href="#get-involved">Corporate CSR</a></li>
+                        <li><a href="#contact">Partner With Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>More</h4>
+                    <ul>
+                        <li><a href="#stories">Stories of Change</a></li>
+                        <li><a href="#media">Media & Press</a></li>
+                        <li><a href="#transparency">Transparency</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 RGS Academy, Jujharpur, Narmadapuram, MP. All rights reserved.</span>
+                <span>Founded by <a href="#about">Sanjeev Choudhary (Sonu RGS)</a> | <a
+                        href="mailto:sonurgs5982@gmail.com">sonurgs5982@gmail.com</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ── SLIDER ──
+        let current = 0;
+        const total = 4;
+        const track = document.getElementById('slides');
+        const dots = document.querySelectorAll('.dot');
+        function updateSlider() {
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+        function changeSlide(dir) {
+            current = (current + dir + total) % total;
+            updateSlider();
+        }
+        function goSlide(i) {
+            current = i;
+            updateSlider();
+        }
+        setInterval(() => changeSlide(1), 5500);
+
+        // ── POPUP (shows after 5 seconds) ──
+        setTimeout(function () {
+            document.getElementById('popup-overlay').classList.add('show');
+        }, 5000);
+
+        function closePopup() {
+            document.getElementById('popup-overlay').classList.remove('show');
+        }
+
+        document.getElementById('popup-overlay').addEventListener('click', function (e) {
+            if (e.target === this) closePopup();
+        });
+
+        // ── DONATE AMOUNT SELECTOR ──
+        function selectAmount(el) {
+            document.querySelectorAll('.donate-amount').forEach(d => d.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // ── SMOOTH SCROLL ──
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function (e) {
+                const id = this.getAttribute('href');
+                if (id === '#') return;
+                const el = document.querySelector(id);
+                if (el) {
+                    e.preventDefault();
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ── COUNTER ANIMATION ──
+        function animateCounters() {
+            document.querySelectorAll('.stat-num').forEach(el => {
+                const text = el.textContent;
+                const num = parseInt(text);
+                if (!num) return;
+                let start = 0;
+                const dur = 1500;
+                const step = Math.ceil(num / (dur / 16));
+                const plus = el.querySelector('.stat-plus');
+                const plusHTML = plus ? `<span class="stat-plus">+</span>` : '';
+                const timer = setInterval(() => {
+                    start += step;
+                    if (start >= num) {
+                        el.innerHTML = num + plusHTML;
+                        clearInterval(timer);
+                    } else {
+                        el.innerHTML = start + plusHTML;
+                    }
+                }, 16);
+            });
+        }
+
+        const statsSection = document.querySelector('.stats');
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                animateCounters();
+                observer.disconnect();
+            }
+        }, { threshold: 0.3 });
+        if (statsSection) observer.observe(statsSection);
+    </script>
+</body>
+
+</html>
