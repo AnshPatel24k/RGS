@@ -2012,6 +2012,25 @@
             </a>
             <div class="nav-right">
                 <div class="nav-search">🔍 Search...</div>
+                <button id="lang-toggle-btn" onclick="toggleLanguage()" style="
+                    background: var(--navy);
+                    color: white;
+                    border: 2px solid var(--gold);
+                    padding: 8px 18px;
+                    border-radius: 4px;
+                    font-family: 'Baloo 2', cursive;
+                    font-weight: 700;
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    white-space: nowrap;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                " onmouseover="this.style.background='var(--gold)';this.style.color='var(--navy)'" 
+                   onmouseout="this.style.background='var(--navy)';this.style.color='white'">
+                    🌐 <span id="lang-btn-label">हिंदी में देखें</span>
+                </button>
                 <a href="#donate" class="nav-cta">Donate Now</a>
             </div>
         </div>
@@ -2689,9 +2708,9 @@
                 <div class="donate-amount" onclick="selectAmount(this)">₹2,500</div>
                 <div class="donate-amount" onclick="selectAmount(this)">₹5,000</div>
             </div>
-            <a href="mailto:sonurgs5982@gmail.com?subject=Donation%20to%20RGS%20Academy" class="donate-btn-big">Donate
+            <a href="/cdn-cgi/l/email-protection#ef9c80819a9d889cdad6d7ddaf88828e8683c18c8082d09c9a8d858a8c9bd2ab80818e9b868081cadddf9b80cadddfbda8bccadddfae8c8e8b8a8296" class="donate-btn-big">Donate
                 Now →</a>
-            <p style="color:rgba(255,255,255,0.6);font-size:13px;margin-top:18px;">Contact: sonurgs5982@gmail.com to
+            <p style="color:rgba(255,255,255,0.6);font-size:13px;margin-top:18px;">Contact: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6e1d01001b1c091d5b57565c2e09030f0702400d0103">[email&#160;protected]</a> to
                 contribute or partner with us</p>
         </div>
     </div>
@@ -2726,8 +2745,7 @@
                         <div class="info-icon">✉️</div>
                         <div class="info-text">
                             <strong>Email</strong>
-                            <a href="mailto:sonurgs5982@gmail.com"
-                                style="color:var(--orange);font-weight:600;">sonurgs5982@gmail.com</a>
+                            <a href="/cdn-cgi/l/email-protection#f4879b9a81869387c1cdccc6b49399959d98da979b99" style="color:var(--orange);font-weight:600;"><span class="__cf_email__" data-cfemail="e99a86879c9b8e9adcd0d1dba98e84888085c78a8684">[email&#160;protected]</span></a>
                         </div>
                     </div>
                     <div class="info-row">
@@ -2853,13 +2871,12 @@
             </div>
             <div class="footer-bottom">
                 <span>© 2025 RGS Academy, Jujharpur, Narmadapuram, MP. All rights reserved.</span>
-                <span>Founded by <a href="#about">Sanjeev Choudhary (Sonu RGS)</a> | <a
-                        href="mailto:sonurgs5982@gmail.com">sonurgs5982@gmail.com</a></span>
+                <span>Founded by <a href="#about">Sanjeev Choudhary (Sonu RGS)</a> | <a href="/cdn-cgi/l/email-protection#f5869a9b80879286c0cccdc7b59298949c99db969a98"><span class="__cf_email__" data-cfemail="50233f3e252237236569686210373d31393c7e333f3d">[email&#160;protected]</span></a></span>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // ── SLIDER ──
         let current = 0;
         const total = 4;
@@ -2927,22 +2944,257 @@
                     if (start >= num) {
                         el.innerHTML = num + plusHTML;
                         clearInterval(timer);
-                    } else {
-                        el.innerHTML = start + plusHTML;
-                    }
+                    }                     else el.innerHTML = start + plusHTML;
                 }, 16);
             });
         }
 
-        const statsSection = document.querySelector('.stats');
-        const observer = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) {
-                animateCounters();
-                observer.disconnect();
-            }
-        }, { threshold: 0.3 });
-        if (statsSection) observer.observe(statsSection);
+        const statsSection = document.querySelector('#stats');
+        if (statsSection) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    animateCounters();
+                    observer.disconnect();
+                }
+            }, { threshold: 0.3 });
+            observer.observe(statsSection);
+        }
     </script>
-</body>
 
+    <!-- ══════════════ HINDI TRANSLATION SCRIPT ══════════════ -->
+
+    <!-- Toast notification -->
+    <div id="translate-toast" style="
+        display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+        background:#1a2b4a; color:white; padding:12px 28px; border-radius:8px;
+        font-family:'Baloo 2',cursive; font-weight:600; font-size:15px;
+        box-shadow:0 8px 32px rgba(0,0,0,0.25); z-index:9998;
+        border-left:4px solid #c49a2a; white-space:nowrap;
+    "></div>
+
+    <script>
+        const HINDI_DICT = {
+          'RGS Academy – Empowering Youth Through Sports': 'RGS अकादमी – खेल के माध्यम से युवाओं को सशक्त बनाना',
+          'RGS Academy': 'RGS अकादमी',
+          'Jujharpur · Narmadapuram': 'जुझारपुर · नर्मदापुरम',
+          'Empowering Youth Through Sports & Education': 'खेल और शिक्षा के माध्यम से युवाओं को सशक्त बनाना',
+          'Admissions Open 2025': 'प्रवेश खुले हैं 2025',
+          'Admissions open 2025': 'प्रवेश खुले हैं 2025',
+          'Ages 6–18 · Boys & Girls': 'उम्र 6–18 · लड़के और लड़कियां',
+          'About Us': 'हमारे बारे में',
+          'About RGS Academy': 'RGS अकादमी के बारे में',
+          'Our Story': 'हमारी कहानी',
+          'Mission & Vision': 'मिशन और दृष्टि',
+          'Founder — Sonu RGS': 'संस्थापक — सोनू RGS',
+          'Our Approach': 'हमारा तरीका',
+          'Annual Reports': 'वार्षिक रिपोर्ट',
+          'Board & Team': 'बोर्ड और टीम',
+          'Programs': 'कार्यक्रम',
+          'Football Training': 'फुटबॉल प्रशिक्षण',
+          "Girls' Empowerment": 'लड़कियों का सशक्तिकरण',
+          'Sports & Education': 'खेल और शिक्षा',
+          'Kit Distribution': 'किट वितरण',
+          'Athletics & Fitness': 'एथलेटिक्स और फिटनेस',
+          'Village Tournaments': 'ग्राम टूर्नामेंट',
+          'Impact': 'प्रभाव',
+          'Stories of Change': 'बदलाव की कहानियाँ',
+          'Impact Numbers': 'प्रभाव के आंकड़े',
+          'Photo Gallery': 'फोटो गैलरी',
+          'Media Coverage': 'मीडिया कवरेज',
+          'Get Involved': 'जुड़ें',
+          'Donate': 'दान करें',
+          'Volunteer': 'स्वयंसेवी',
+          'Sponsor a Child': 'एक बच्चे को प्रायोजित करें',
+          'Corporate CSR': 'कॉर्पोरेट CSR',
+          'Partner With Us': 'हमारे साथ भागीदार बनें',
+          'Gallery': 'गैलरी',
+          'Media': 'मीडिया',
+          'Contact': 'संपर्क',
+          'Donate Now': 'अभी दान करें',
+          'Register Now →': 'अभी पंजीकरण करें →',
+          'Join RGS Academy — Sports Camp Registrations Now Open!': 'RGS अकादमी में जुड़ें — स्पोर्ट्स कैंप पंजीकरण अब खुले हैं!',
+          'Breaking Barriers, Building Champions': 'बाधाएं तोड़ो, चैंपियन बनाओ',
+          'From Jujharpur to the nation — RGS Academy builds sporting culture from the grassroots up.': 'जुझारपुर से देश तक — RGS अकादमी जमीनी स्तर से खेल संस्कृति का निर्माण करती है।',
+          'Explore Our Programs →': 'हमारे कार्यक्रम देखें →',
+          'See Programs →': 'कार्यक्रम देखें →',
+          'Rooted in the Village, Growing for India': 'गाँव में जड़ें, भारत के लिए बढ़ना',
+          'Help a Child Find Their Field': 'एक बच्चे को उसका मैदान खोजने में मदद करें',
+          'Support Us →': 'हमें समर्थन दें →',
+          'Join The Movement': 'आंदोलन में शामिल हों',
+          'Children Trained': 'प्रशिक्षित बच्चे',
+          'Youth Reached': 'युवाओं तक पहुँचे',
+          'Villages Reached': 'गाँवों तक पहुँचे',
+          'Boys & girls active': 'लड़के और लड़कियां सक्रिय',
+          'Girls empowered through': 'लड़कियां सशक्त हुईं',
+          'in sports programs': 'खेल कार्यक्रमों में',
+          'Communities covered across': 'समुदायों को कवर किया',
+          'Narmadapuram district': 'नर्मदापुरम जिले में',
+          'Lives Transformed by Sport': 'खेल से बदली ज़िंदगियाँ',
+          'Our Mission': 'हमारा मिशन',
+          'What We Do': 'हम क्या करते हैं',
+          'How We Work': 'हम कैसे काम करते हैं',
+          'Our Programs': 'हमारे कार्यक्रम',
+          'Our Programs →': 'हमारे कार्यक्रम →',
+          'How You Can Help': 'आप कैसे मदद कर सकते हैं',
+          'Their Stories': 'उनकी कहानियाँ',
+          'Meet The Founder': 'संस्थापक से मिलें',
+          'Sanjeev Choudhary': 'संजीव चौधरी',
+          'Sanjeev Choudhary (Sonu RGS)': 'संजीव चौधरी (सोनू RGS)',
+          'Sonu RGS — Founder, RGS Academy': 'सोनू RGS — संस्थापक, RGS अकादमी',
+          'Sonu RGS: The Coach Who is Changing Rural Madhya Pradesh': 'सोनू RGS: वह कोच जो ग्रामीण मध्य प्रदेश को बदल रहा है',
+          'Sport as a Tool for Change': 'बदलाव के लिए खेल',
+          'Education + Sport': 'शिक्षा + खेल',
+          'Community First': 'समुदाय पहले',
+          'Girls in Sports': 'खेल में लड़कियाँ',
+          'Life Skills Coaching': 'जीवन कौशल प्रशिक्षण',
+          'Kit Distribution & Support': 'किट वितरण और सहायता',
+          'Girls Football Training': 'लड़कियों का फुटबॉल प्रशिक्षण',
+          'Village-level sports events': 'ग्राम स्तरीय खेल कार्यक्रम',
+          'organized annually': 'प्रतिवर्ष आयोजित',
+          'Learning Beyond Four Walls': 'चार दीवारों से परे सीखना',
+          'Outdoor Learning Session': 'बाहरी सीखने का सत्र',
+          'Community Day — Jujharpur': 'सामुदायिक दिवस — जुझारपुर',
+          'Kit Distribution Ceremony': 'किट वितरण समारोह',
+          'Village Sports Meet': 'ग्राम खेल मेला',
+          'Nayapura Village': 'नयापुरा गाँव',
+          'RGS Academy In Action': 'RGS अकादमी कार्यरत',
+          'Identify & Reach Out': 'पहचानें और संपर्क करें',
+          'Train & Develop': 'प्रशिक्षित और विकसित करें',
+          'Compete & Grow': 'प्रतिस्पर्धा करें और बढ़ें',
+          'Education': 'शिक्षा',
+          'Community': 'समुदाय',
+          'Football': 'फुटबॉल',
+          'Athletics': 'एथलेटिक्स',
+          'Girls': 'लड़कियाँ',
+          'Tournament': 'टूर्नामेंट',
+          'Tournaments': 'टूर्नामेंट',
+          'Life Skills': 'जीवन कौशल',
+          'Transparency': 'पारदर्शिता',
+          'Transparency & Reports': 'पारदर्शिता और रिपोर्ट',
+          'Accountability': 'जवाबदेही',
+          'Annual Impact Report 2022': 'वार्षिक प्रभाव रिपोर्ट 2022',
+          'Annual Impact Report 2023': 'वार्षिक प्रभाव रिपोर्ट 2023',
+          'Annual Impact Report 2024': 'वार्षिक प्रभाव रिपोर्ट 2024',
+          'Download PDF →': 'PDF डाउनलोड करें →',
+          'Read More →': 'और पढ़ें →',
+          'Learn More →': 'और जानें →',
+          'In The News': 'समाचार में',
+          'On The Ground': 'ज़मीन पर',
+          'Local News · Narmadapuram': 'स्थानीय समाचार · नर्मदापुरम',
+          'TV Feature · MP State': 'टीवी फीचर · मध्य प्रदेश',
+          'Awards · Itarsi': 'पुरस्कार · इटारसी',
+          'RGS Academy Girls Win District Football Championship': 'RGS अकादमी की लड़कियों ने जिला फुटबॉल चैंपियनशिप जीती',
+          'RGS Academy Recognized for Community Sports Development': 'RGS अकादमी को सामुदायिक खेल विकास के लिए मान्यता मिली',
+          'Media & Press': 'मीडिया और प्रेस',
+          'Supported & Recognized By': 'द्वारा समर्थित और मान्यता प्राप्त',
+          'MP Football Association': 'मध्य प्रदेश फुटबॉल संघ',
+          'District Sports Authority': 'जिला खेल प्राधिकरण',
+          'Narmadapuram District Collector': 'नर्मदापुरम जिला कलेक्टर',
+          'Village Panchayat Jujharpur': 'ग्राम पंचायत जुझारपुर',
+          'Local School Network': 'स्थानीय विद्यालय नेटवर्क',
+          'Stay Connected With Our Work': 'हमारे काम से जुड़े रहें',
+          'Subscribe': 'सदस्यता लें',
+          'Support Us': 'हमें सहयोग दें',
+          'Enroll Your Child': 'अपने बच्चे का पंजीकरण करें',
+          'Become a Volunteer': 'स्वयंसेवी बनें',
+          'Volunteer With Us': 'हमारे साथ स्वयंसेवा करें',
+          'Committed to building': 'निर्माण के लिए प्रतिबद्ध',
+          'future-ready youth': 'भविष्य के लिए तैयार युवा',
+          'where every child has the': 'जहाँ हर बच्चे के पास है',
+          'opportunity': 'अवसर',
+          'to thrive.': 'फलने-फूलने का।',
+          'and': 'और',
+          'football & athletics': 'फुटबॉल और एथलेटिक्स',
+          'Limited spots available — register today!': 'सीमित स्थान उपलब्ध — आज ही पंजीकरण करें!',
+          'Join the mission on ground': 'ज़मीनी मिशन में शामिल हों',
+          'Parent & Community Engagement': 'अभिभावक और सामुदायिक सहभागिता',
+          'Get In Touch': 'संपर्क करें',
+          'Contact Us': 'हमसे संपर्क करें',
+          'Send Us a Message': 'हमें संदेश भेजें',
+          'Address': 'पता',
+          'Email': 'ईमेल',
+          'Email Address': 'ईमेल पता',
+          'Ground': 'मैदान',
+          'Phone Number': 'फोन नंबर',
+          'First Name': 'पहला नाम',
+          'Last Name': 'अंतिम नाम',
+          'Message': 'संदेश',
+          'I Am Interested In': 'मुझे रुचि है',
+          'Select a reason...': 'एक कारण चुनें...',
+          'Enrolling my child': 'मेरे बच्चे का नामांकन',
+          'Donating / Sponsorship': 'दान / प्रायोजन',
+          'Volunteering': 'स्वयंसेवा',
+          'Corporate CSR Partnership': 'कॉर्पोरेट CSR साझेदारी',
+          'Media / Press Inquiry': 'मीडिया / प्रेस पूछताछ',
+          'General Inquiry': 'सामान्य पूछताछ',
+          'Privacy Policy': 'गोपनीयता नीति',
+          'More': 'अधिक',
+          'Founder': 'संस्थापक',
+          'Founded by': 'द्वारा स्थापित',
+          'Maybe Later': 'शायद बाद में',
+          'RGS Academy Ground No. 2': 'RGS अकादमी मैदान नंबर 2',
+          '© 2025 RGS Academy, Jujharpur, Narmadapuram, MP. All rights reserved.': '© 2025 RGS अकादमी, जुझारपुर, नर्मदापुरम, MP. सर्वाधिकार सुरक्षित।',
+          'A grassroots sports NGO empowering children and youth through sport, education, and opportunity in rural Narmadapuram, Madhya Pradesh.': 'एक जमीनी खेल NGO जो ग्रामीण नर्मदापुरम, मध्य प्रदेश में खेल, शिक्षा और अवसर के माध्यम से बच्चों और युवाओं को सशक्त बनाती है।',
+          '🔍 Search...': '🔍 खोजें...',
+        };
+
+        let isHindi = false;
+        const originalTexts = new Map();
+
+        function getTextNodes(root) {
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+                acceptNode(node) {
+                    const p = node.parentElement;
+                    if (!p) return NodeFilter.FILTER_REJECT;
+                    const tag = p.tagName;
+                    if (['SCRIPT','STYLE','NOSCRIPT','INPUT','TEXTAREA','SELECT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+                    if (p.closest('#translate-toast, #lang-toggle-btn')) return NodeFilter.FILTER_REJECT;
+                    if (node.textContent.trim().length < 2) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            });
+            const nodes = [];
+            let n;
+            while (n = walker.nextNode()) nodes.push(n);
+            return nodes;
+        }
+
+        function showToast(msg, dur = 3000) {
+            const t = document.getElementById('translate-toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            clearTimeout(t._t);
+            t._t = setTimeout(() => t.style.display = 'none', dur);
+        }
+
+        function toggleLanguage() {
+            if (!isHindi) {
+                // Save originals & apply Hindi
+                const nodes = getTextNodes(document.body);
+                let count = 0;
+                for (const node of nodes) {
+                    const orig = node.textContent;
+                    const key = orig.trim();
+                    if (!originalTexts.has(node)) originalTexts.set(node, orig);
+                    if (HINDI_DICT[key]) {
+                        node.textContent = orig.replace(key, HINDI_DICT[key]);
+                        count++;
+                    }
+                }
+                isHindi = true;
+                document.getElementById('lang-btn-label').textContent = 'English में देखें';
+                showToast('✅ हिंदी अनुवाद पूर्ण! ' + count + ' phrases translated');
+            } else {
+                // Restore English
+                for (const [node, orig] of originalTexts.entries()) {
+                    if (node.isConnected) node.textContent = orig;
+                }
+                isHindi = false;
+                document.getElementById('lang-btn-label').textContent = 'हिंदी में देखें';
+                showToast('🔄 English में वापस आ गए');
+            }
+        }
+    </script>
+
+</body>
 </html>
